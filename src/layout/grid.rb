@@ -1,5 +1,5 @@
+require_relative 'cell'
 require 'chunky_png'
-require 'cell'
 
 class Grid
 	attr_reader :rows, :columns

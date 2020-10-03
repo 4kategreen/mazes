@@ -1,4 +1,4 @@
-require 'distances'
+require_relative 'distances'
 
 class Cell
 	attr_reader :row, :column

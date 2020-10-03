@@ -1,5 +1,5 @@
-require 'grid'
-require 'sidewinder'
+require_relative 'src/layout/grid'
+require_relative 'src/algorithms/sidewinder'
 
 grid = Grid.new(85,110)
 Sidewinder.on(grid)

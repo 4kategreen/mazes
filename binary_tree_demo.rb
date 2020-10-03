@@ -1,5 +1,5 @@
-require 'grid'
-require 'binary_tree'
+require_relative 'src/layout/grid'
+require_relative 'src/algorithms/binary_tree'
 
 grid = Grid.new(10,10)
 BinaryTree.on(grid)

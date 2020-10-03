@@ -1,5 +1,5 @@
-require 'colored_grid'
-require 'sidewinder'
+require_relative 'src/layout/colored_grid'
+require_relative 'src/algorithms/sidewinder'
 
 grid = ColoredGrid.new(25,25)
 Sidewinder.on(grid)

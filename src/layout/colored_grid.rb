@@ -1,4 +1,4 @@
-require 'grid'
+require_relative 'grid'
 require 'chunky_png'
 
 class ColoredGrid < Grid
