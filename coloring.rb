@@ -8,6 +8,6 @@ start = grid[grid.rows / 2, grid.columns / 2]
 
 grid.distances = start.distances
 
-filename = "colorized.png"
+filename = "output/colorized.png"
 grid.to_png.save(filename)
 puts "saved to #{filename}"
