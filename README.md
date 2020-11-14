@@ -4,18 +4,17 @@ Based on Jamis Buck's Mazes for Programmers
 A compilation of the code from Jamis Buck's book with some changes and upgrades to suit my needs, which is generating endless mazes for my children.
 
 ## Usage
-Right now, the files all need to be run either on the command line or in some sort of Ruby GUI. I'm using command line, so I'll demo here. 
-
-All files at the root level generate a maze. Some show different algorithms, others show off anciliary aspects of maze generation
-
-* `*_demo.rb`: generates a maze a certain algorithm
-* `dijkstra.rb`, `longest_path.rb` show the shortest and longest path in a path.
-* `coloring.rb` use's Dijkstra's Algorithm to show the distance from a starting points=
-
-In each file, you can edit the grid size (`new Grid(20,20)`). In the last two bullets, you can also edit the algorithm used by changing the `require` and class declaration. 
-
 To generate a maze:
 
 ```
-ruby -I. {file}.rb
+ruby create_maze.rb {width} {height} {algorithm}
 ```
+
+where algorithm is one of:
+* `binary_tree`
+* `sidewinder`
+* `aldous_broder`
+* `wilsons`
+* `hunt_and_kill`
+
+It will output to an `output/` directory. If that fails, `mkdir output` to make the directory in the same place as `create_maze.rb`
