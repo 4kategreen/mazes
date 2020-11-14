@@ -1,7 +1,7 @@
-require 'grid'
-require 'wilsons'
+require_relative 'src/layout/grid'
+require_relative 'src/algorithms/wilsons'
 
-grid = Grid.new(20, 20)
+grid = Grid.new(40, 40)
 Wilsons.on(grid)
 
 filename = "output/wilsons.png"
