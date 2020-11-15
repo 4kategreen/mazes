@@ -17,6 +17,8 @@ when "binary_tree"
 	BinaryTree.on(grid)
 when "hunt_and_kill"
 	HuntAndKill.on(grid)
+when "recursive_backtracker"
+	RecursiveBacktracker.on(grid)
 when "sidewinder"
 	Sidewinder.on(grid)
 when "wilsons"
