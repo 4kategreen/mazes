@@ -7,6 +7,6 @@ mask = Mask.from_txt(ARGV.first)
 grid = MaskedGrid.new(mask)
 RecursiveBacktracker.on(grid)
 
-filename = "output/masked.png"
+filename = "output/r.png"
 grid.to_png.save(filename)
 puts "saved image to #{filename}"
