@@ -1,0 +1,22 @@
+{
+  "name": "maze-monster",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/4kategreen/mazes.git"
+  },
+  "author": "Kate Green",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/4kategreen/mazes/issues"
+  },
+  "homepage": "https://github.com/4kategreen/mazes#readme",
+  "dependencies": {
+    "typescript": "^4.1.5"
+  }
+}
