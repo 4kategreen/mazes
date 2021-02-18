@@ -6,6 +6,7 @@ class Grid {
 	constructor(rows: number, columns: number) {
 		this.rows = rows;
 		this.columns = columns;
+		this.grid = [];
 
 		this.prepareGrid();
 		this.configureCells();
@@ -13,6 +14,7 @@ class Grid {
 
 	prepareGrid() {
 		for (let r=0; r<this.rows; r++) {
+			this.grid[r] = [];
 			for (let c=0; c<this.columns; c++) {
 				this.grid[r][c] = new Cell(r,c);
 			}
@@ -27,10 +29,10 @@ class Grid {
 				let row = cell.row,
 						column = cell.column;
 
-				cell.north = this.grid[row - 1][column]
-				cell.south = this.grid[row + 1][column]
-				cell.west = this.grid[row][column - 1]
-				cell.east = this.grid[row][column + 1]
+				cell.north = row > 0 ? this.grid[row - 1][column]: undefined;
+				cell.south = row < this.rows - 1 ? this.grid[row + 1][column] : undefined;
+				cell.west = column > 0 ? this.grid[row][column - 1]: undefined;
+				cell.east = column < this.columns - 1 ? this.grid[row][column + 1]: undefined;
 			}
 		}
 	}
@@ -40,6 +42,12 @@ class Grid {
 		let randomColumn = Math.ceil(Math.random()*this.columns);
 
 		return this.grid[randomRow][randomColumn];
+	}
+
+	print() {
+		console.log(this.rows)
+		console.log(this.columns)
+		console.log(this.grid)
 	}
 }
 
@@ -76,3 +84,5 @@ class Cell {
 		return list;
 	}
 }
+
+export { Grid }
