@@ -45,19 +45,50 @@ class Grid {
 	}
 
 	print() {
-		console.log(this.rows)
-		console.log(this.columns)
-		console.log(this.grid)
+		let rowGenerator = (start: number, end: number): string => {
+			let rowText = '';
+
+			for (let i=start;i<end;i++) {
+				rowText+='---+';
+			}
+
+			return rowText;
+		};
+
+
+		let maze = "+" + rowGenerator(0,this.columns) + "\n",
+				body = "   ",
+				corner = "+";
+
+		for (let r=0; r<this.rows; r++) {
+			let top = "|",
+					bottom = "+";
+
+			for (let c=0; c<this.columns; c++) {
+				let cell = this.grid[r][c],
+						eastBoundary = cell.isLinked(cell.east) ? " " : "|",
+						southBoundary = cell.isLinked(cell.south) ? " " : "---";
+
+				top+= body + eastBoundary;
+				bottom+= southBoundary + corner;
+
+			}
+
+			maze+= top + "\n";
+			maze+= bottom+ "\n";
+		}
+
+		return maze;
 	}
 }
 
 class Cell {
 	row: number;
 	column: number;
-	north?: Cell;
-	south?: Cell;
-	east?: Cell;
-	west?: Cell
+	north: Cell | undefined;
+	south: Cell | undefined;
+	east: Cell | undefined;
+	west: Cell | undefined;
 	links: Cell[];
 
 	constructor(row: number, column: number) {
@@ -70,8 +101,10 @@ class Cell {
 		this.links.push(cell);
 	};
 
-	isLinked(cell: Cell): Boolean {
-		return this.links.includes(cell);
+	isLinked(cell: Cell | undefined): Boolean {
+		if (cell === undefined) {
+			return false;
+		} else return this.links.includes(cell);
 	}
 
 	neighbors(): Cell[] {
