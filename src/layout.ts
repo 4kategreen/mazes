@@ -38,8 +38,8 @@ class Grid {
 	}
 
 	randomCell(): Cell {
-		let randomRow = Math.ceil(Math.random()*this.rows);
-		let randomColumn = Math.ceil(Math.random()*this.columns);
+		let randomRow = Math.floor(Math.random()*this.rows);
+		let randomColumn = Math.floor(Math.random()*this.columns);
 
 		return this.grid[randomRow][randomColumn];
 	}
@@ -67,7 +67,7 @@ class Grid {
 			for (let c=0; c<this.columns; c++) {
 				let cell = this.grid[r][c],
 						eastBoundary = cell.isLinked(cell.east) ? " " : "|",
-						southBoundary = cell.isLinked(cell.south) ? " " : "---";
+						southBoundary = cell.isLinked(cell.south) ? "   " : "---";
 
 				top+= body + eastBoundary;
 				bottom+= southBoundary + corner;
@@ -85,10 +85,10 @@ class Grid {
 class Cell {
 	row: number;
 	column: number;
-	north: Cell | undefined;
-	south: Cell | undefined;
-	east: Cell | undefined;
-	west: Cell | undefined;
+	north?: Cell;
+	south?: Cell;
+	east?: Cell;
+	west?: Cell;
 	links: Cell[];
 
 	constructor(row: number, column: number) {
@@ -101,7 +101,7 @@ class Cell {
 		this.links.push(cell);
 	};
 
-	isLinked(cell: Cell | undefined): Boolean {
+	isLinked(cell?: Cell): Boolean {
 		if (cell === undefined) {
 			return false;
 		} else return this.links.includes(cell);
@@ -118,4 +118,23 @@ class Cell {
 	}
 }
 
-export { Grid }
+function recursiveBacktracker(maze: Grid) {
+	let stack: Cell[] = [];
+	stack.push(maze.randomCell());
+
+	while (stack.length > 0) {
+		let current: Cell = stack[stack.length-1];
+		let	neighbors: Cell[] = current.neighbors().filter(n => n.links.length === 0)
+
+		if (neighbors.length === 0) {
+			stack.pop()
+		} else {
+			let neighbor: Cell = neighbors[Math.floor(Math.random()*neighbors.length)];
+			current.link(neighbor);
+			neighbor.link(current);
+			stack.push(neighbor);
+		}
+	}
+}
+
+export { Grid, recursiveBacktracker }

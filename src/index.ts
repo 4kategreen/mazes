@@ -1,4 +1,5 @@
-const { Grid } = require('./layout');
+const { Grid, recursiveBacktracker } = require('./layout');
 
 let grid = new Grid(10,10);
-console.log(grid.print());
+recursiveBacktracker(grid);
+grid.print();
