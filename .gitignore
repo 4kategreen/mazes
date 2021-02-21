@@ -1,5 +1,7 @@
 dist/
 output/
+mazes.js*
+
 node_modules
 
 **/.DS_Store
