@@ -22,6 +22,8 @@ const createInput = (elementName: string, userText: string): HTMLLabelElement =>
     
     label.innerText = userText;
     input.setAttribute("name", elementName);
+    input.setAttribute("type", "number");
+    input.setAttribute("placeholder", "20");
     label.appendChild(input);
 
     return label;
