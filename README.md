@@ -1,29 +1,15 @@
-# Mazes
-Based on Jamis Buck's Mazes for Programmers
+[![Netlify Status](https://api.netlify.com/api/v1/badges/499b2c8e-7cd5-4b8d-8f5e-2585e9c33ebb/deploy-status)](https://app.netlify.com/sites/mystifying-curie-614fdc/deploys)
+
+# Maze Monster
+[www.mazemonster.com](www.mazemonster.com), a maze generator based on Jamis Buck's Mazes for Programmers
 
 A compilation of the code from Jamis Buck's book with some changes and upgrades to suit my needs, which is generating endless mazes for my children.
 
 ## Usage
 
-### Big Block Maze
-To generate a maze:
+### Installation
+1. Clone
+1. `npm i`
 
-```
-ruby create_maze.rb {width} {height} {algorithm}
-```
-
-where algorithm is one of:
-* `binary_tree`
-* `sidewinder`
-* `aldous_broder`
-* `wilsons`
-* `hunt_and_kill`
-
-It will output to an `output/` directory. If that fails, `mkdir output` to make the directory in the same place as `create_maze.rb`
-
-### Maze With Masks
-To generate a masked maze, you can use ascii maps, like in the `masks/` directory or a black and white png. 
-
-```
-ruby masked_maze.rb {file}
-```
+### Compilation
+`npm run build`
