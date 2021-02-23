@@ -8,7 +8,6 @@ const generateMaze = (height: number, width: number): string => {
 };
 
 const generateNewMaze = (): void => {
-  // todo: make sure these are numbers 
   let height = document.getElementsByName("height")[0],
       width = document.getElementsByName("width")[0],
       pre = document.getElementsByTagName("pre")[0];
@@ -24,6 +23,8 @@ const createInput = (elementName: string, userText: string): HTMLLabelElement =>
     input.setAttribute("name", elementName);
     input.setAttribute("type", "number");
     input.setAttribute("placeholder", "20");
+    input.required = true;
+    input.min="1";
     label.appendChild(input);
 
     return label;
@@ -33,7 +34,10 @@ const initialize = (): void => {
   let maze = document.getElementById('maze');
 
   let pre = document.createElement("pre"),
-      button = document.createElement("button");
+      button = document.createElement("button"),
+      form = document.createElement("form");
+
+  form.addEventListener("submit", (e) => e.preventDefault(), true);
 
   button.innerText = "Generate New Maze!";
   button.addEventListener("click", generateNewMaze);
@@ -42,9 +46,10 @@ const initialize = (): void => {
       width = createInput("width", "Width");
 
   if (maze) {
-    maze.appendChild(height);
-    maze.appendChild(width);
-    maze.appendChild(button);
+    form.appendChild(height);
+    form.appendChild(width);
+    form.appendChild(button);
+    maze.appendChild(form);
     maze.appendChild(pre);
 
     pre.innerText = generateMaze(20, 20);
