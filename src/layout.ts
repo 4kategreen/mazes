@@ -45,7 +45,7 @@ class Grid {
 	}
 
 	print() {
-		let rowGenerator = (start: number, end: number): string => {
+		const rowGenerator = (start: number, end: number): string => {
 			let rowText = '';
 
 			for (let i=start;i<end;i++) {
@@ -55,8 +55,7 @@ class Grid {
 			return rowText;
 		};
 
-
-		let maze = "+" + rowGenerator(0,this.columns) + "\n",
+		let maze = "+   +" + rowGenerator(0,this.columns-1) + "\n",
 				body = "   ",
 				corner = "+";
 
@@ -68,6 +67,10 @@ class Grid {
 				let cell = this.grid[r][c],
 						eastBoundary = cell.isLinked(cell.east) ? " " : "|",
 						southBoundary = cell.isLinked(cell.south) ? "   " : "---";
+
+				if (r === this.rows-1 && c === this.columns-1) {
+					southBoundary = "   ";
+				}
 
 				top+= body + eastBoundary;
 				bottom+= southBoundary + corner;
