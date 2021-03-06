@@ -1,143 +1,145 @@
-class Grid {
-	rows: number;
-	columns: number;
-	grid: Cell[][];
+// given a block, the walls should be 	latitude = [bx,by][bx+1,by]
+// 																		longitude = [bx,by][bx, by+1]
 
-	constructor(rows: number, columns: number) {
-		this.rows = rows;
-		this.columns = columns;
-		this.grid = [];
+// given a 5x5 grid, lat walls should be 5 r and 6 c
+// 									 long walls should be 6 r and 5 c		
 
-		this.prepareGrid();
-		this.configureCells();
-	};
+// joins
+// 0,0 -> 1,0 (1,0 wall); 1,6 -> 2,6 (2,6 wall)
+// 0,0 -> 0,1 (0,1 wall)
+// one number is the same. first number==long change, second number==lat change
+// the wall is always the larger of the two coordinates
 
-	prepareGrid() {
-		for (let r=0; r<this.rows; r++) {
-			this.grid[r] = [];
-			for (let c=0; c<this.columns; c++) {
-				this.grid[r][c] = new Cell(r,c);
-			}
-		}
-	};
+// find out wall numbers
+// 0,0 -> lat 0,1 (not lat 0,0); long 1,0 (not long 0,0)
+// 1,0 -> lat 1,0 and 2,0; long 1,1 (not 1,0)
+// 2,1 -> lat 2,1 and 3,1; long 2,1 and 2,2
 
-	configureCells() {
-		for (let r=0; r<this.rows; r++) {
-			for (let c=0; c<this.columns; c++) {
-				let cell = this.grid[r][c];
-
-				let row = cell.row,
-						column = cell.column;
-
-				cell.north = row > 0 ? this.grid[row - 1][column]: undefined;
-				cell.south = row < this.rows - 1 ? this.grid[row + 1][column] : undefined;
-				cell.west = column > 0 ? this.grid[row][column - 1]: undefined;
-				cell.east = column < this.columns - 1 ? this.grid[row][column + 1]: undefined;
-			}
-		}
-	}
-
-	randomCell(): Cell {
-		let randomRow = Math.floor(Math.random()*this.rows);
-		let randomColumn = Math.floor(Math.random()*this.columns);
-
-		return this.grid[randomRow][randomColumn];
-	}
-
-	print() {
-		const rowGenerator = (start: number, end: number): string => {
-			let rowText = '';
-
-			for (let i=start;i<end;i++) {
-				rowText+='---+';
-			}
-
-			return rowText;
-		};
-
-		let maze = "+   +" + rowGenerator(0,this.columns-1) + "\n",
-				body = "   ",
-				corner = "+";
-
-		for (let r=0; r<this.rows; r++) {
-			let top = "|",
-					bottom = "+";
-
-			for (let c=0; c<this.columns; c++) {
-				let cell = this.grid[r][c],
-						eastBoundary = cell.isLinked(cell.east) ? " " : "|",
-						southBoundary = cell.isLinked(cell.south) ? "   " : "---";
-
-				if (r === this.rows-1 && c === this.columns-1) {
-					southBoundary = "   ";
-				}
-
-				top+= body + eastBoundary;
-				bottom+= southBoundary + corner;
-
-			}
-
-			maze+= top + "\n";
-			maze+= bottom+ "\n";
-		}
-
-		return maze;
-	}
+type Walls = {
+	rows: number,
+	columns: number,
+	latitude: boolean[][],
+	longitude: boolean[][]
 }
+type Block = {
+	row: number,
+	column: number
+};
+type Wall = [number, number, string];
 
-class Cell {
-	row: number;
-	column: number;
-	north?: Cell;
-	south?: Cell;
-	east?: Cell;
-	west?: Cell;
-	links: Cell[];
-
-	constructor(row: number, column: number) {
-		this.row = row;
-		this.column = column;
-		this.links = [];
-	}
-
-	link(cell: Cell) {
-		this.links.push(cell);
+function createWalls(rows: number, columns: number): Walls {
+	let walls: Walls = {
+		rows: rows,
+		columns: columns,
+		latitude: [],
+		longitude: []
 	};
 
-	isLinked(cell?: Cell): Boolean {
-		if (cell === undefined) {
-			return false;
-		} else return this.links.includes(cell);
+	for (let r=0; r<walls.rows; r++) {
+		walls.latitude[r] = [];
+
+		for (let c=0; c<=walls.columns; c++) {
+			walls.latitude[r][c] = true;
+		}
 	}
 
-	neighbors(): Cell[] {
-		let list = [];
-		if (this.north) list.push(this.north);
-		if (this.south) list.push(this.south);
-		if (this.east) list.push(this.east);
-		if (this.west) list.push(this.west);
+	for (let r=0; r<=walls.rows; r++) {
+		walls.longitude[r] = [];
 
-		return list;
+		for (let c=0; c<walls.columns; c++) {
+			walls.longitude[r][c] = true;
+		}
 	}
+
+	makeEntrance(walls);
+
+	return walls;
+};
+
+function makeEntrance(w: Walls): void {
+	w.longitude[0][0] = false;
+	// w.longitude[4][5] = false;
 }
-
-function recursiveBacktracker(maze: Grid) {
-	let stack: Cell[] = [];
-	stack.push(maze.randomCell());
+function createMaze(w: Walls): Walls {
+	let stack: Block[] = [];
+	stack.push(randomCell(w.rows, w.columns))
 
 	while (stack.length > 0) {
-		let current: Cell = stack[stack.length-1];
-		let	neighbors: Cell[] = current.neighbors().filter(n => n.links.length === 0)
+		let current: Block = stack[stack.length -1];
+		let nextCell: Block|null = getNextCell(current, w);
 
-		if (neighbors.length === 0) {
-			stack.pop()
+		if (nextCell === null) {
+			stack.pop();
 		} else {
-			let neighbor: Cell = neighbors[Math.floor(Math.random()*neighbors.length)];
-			current.link(neighbor);
-			neighbor.link(current);
-			stack.push(neighbor);
+			let [r,c,type] = findWall(current, nextCell);
+			if (type === 'latitude') {
+				w.latitude[r][c] = false;
+			} else if (type === 'longitude') {
+				w.longitude[r][c] = false;
+			}
+
+			stack.push(nextCell);
 		}
 	}
+
+	return w;
+};
+
+function getNextCell(cell: Block, walls: Walls): Block|null {
+	let neighbors: Block[] = [];
+
+	if (cell.row > 0)
+		neighbors.push({ row: cell.row-1, column: cell.column })
+	if (cell.row+1 < walls.rows)
+		neighbors.push({ row: cell.row+1, column: cell.column })
+	if (cell.column > 0)
+		neighbors.push({ row: cell.row, column: cell.column-1 })
+	if (cell.column+1 < walls.columns)
+		neighbors.push({ row: cell.row, column: cell.column+1 })
+
+	let availableCells = neighbors.filter(n => getLinks(n, walls) === 0);
+
+	if (availableCells.length === 0) return null;
+
+	return availableCells[Math.floor(Math.random()*availableCells.length)]
 }
 
-export { Grid, recursiveBacktracker }
+function getLinks(cell:Block, walls: Walls): number {
+	let links = 0;
+
+	if (!walls.latitude[cell.row][cell.column]) links++;
+	if (!walls.latitude[cell.row][cell.column+1]) links++;
+
+	if (!walls.longitude[cell.row][cell.column]) links++;
+	if (!walls.longitude[cell.row+1][cell.column]) links++;
+
+	return links;
+}
+
+function randomCell(rows: number, columns: number): Block {
+	return {
+		row: Math.floor(Math.random()*rows), 
+		column: Math.floor(Math.random()*columns)
+	}
+};
+
+function findWall(b1: Block, b2: Block): Wall {
+	let removal: Wall = [0, 0, 'unknown'];
+
+	if (b1.row === b2.row) {
+		removal[2] = 'latitude';
+		removal[0] = b1.row;
+		removal[1] = b1.column > b2.column ? b1.column : b2.column;
+	} else if (b1.column === b2.column) {
+		removal[2] = 'longitude';
+		removal[0] = b1.row > b2.row ? b1.row : b2.row;
+		removal[1] = b1.column;
+	} else {
+		throw new Error('unknown wall type');
+	}
+
+	return removal; 
+};
+
+
+export { Walls, createWalls, createMaze }
