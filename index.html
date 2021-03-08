@@ -12,8 +12,43 @@
   <link rel="stylesheet" href="assets/main.css">
 </head>
   <body>
-  	<h1 class="title is-1">Maze Monster</h1>
-  	<div class="container" id="maze"></div>
+  	<section class="hero">
+  	  <div class="hero-body">
+  	    <p class="title">
+  	      Maze Monster
+  	    </p>
+  	    <p class="subtitle">
+  	      Generate all teh mazes
+  	    </p>
+  	  </div>
+  	</section>
+  	<div class="columns" id="maze">
+
+  		<div class="column is-two-thirds">
+	  		<canvas class="p-4" id="mazeDrawing"></canvas>
+	  	</div>
+
+	  	<div class="column is-one-quarter">
+	  		<form id="regenerate">
+	  			<div class="field">
+	  				<label class="label" for="height">Height</label>
+	  				<div class="control">
+	  					<input name="height" type="number" placeholder="20" required min="1" />
+	  				</div>
+	  			</div>
+	  			<div class="field">
+	  				<label class="label" for="width">Width</label>
+	  				<div class="control">
+	  					<input name="width" type="number" placeholder="20" required min="1" />
+	  				</div>
+	  			</div>
+	  			<div class="control">
+	  			  <button id="regenerateSubmit" class="button is-primary">Generate New Maze</button>
+	  			</div>
+	  		</form>
+	  	</div>
+
+  	</div>
 
   	<footer class="footer">
 	  <div class="content has-text-centered">
