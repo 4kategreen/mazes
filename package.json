@@ -1,11 +1,12 @@
 {
   "name": "maze-monster",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "build": "esbuild src/index.ts --bundle --sourcemap --target=chrome58,firefox57,safari11,edge16 --outfile=mazes.js",
+    "build-watch": "npm run build -- --watch",
     "css-build": "node-sass src/css/main.scss assets/main.css",
     "css-watch": "npm run css-build -- --watch"
   },

@@ -1,21 +1,3 @@
-/**
- * Walls
- *  - -
- * | | |
- *  - -
- * | | |
- *  _ _
- *
- * All are based on an (x,y) coordinates pattern and expressed as (row, column) or (r,c)
- * Walls are expressed as latitude and longitude
- * Latitude walls have an extra column (3 v. 2 cells)
- * Longitude walls have an extra row
- *
- * Cell 0,0 -> lat 0,1 (lat 0,0 is a wall); long 1,0 (long 0,0, wall)
- * Cell 1,0 -> lat 1,0 and 2,0; long 1,1 (not 1,0, wall)
- * Cell 2,1 -> lat 2,1 and 3,1; long 2,1 and 2,2
- **/
-
 type Walls = {
 	rows: number,
 	columns: number,
@@ -120,11 +102,6 @@ function randomCell(rows: number, columns: number): Cell {
 	}
 };
 
-// joins
-// 0,0 -> 1,0 (1,0 wall); 1,6 -> 2,6 (2,6 wall)
-// 0,0 -> 0,1 (0,1 wall)
-// one number is the same. first number==long change, second number==lat change
-// the wall is always the larger of the two coordinates
 function findWall(b1: Cell, b2: Cell): Wall {
 	let singleWall: Wall = [0, 0, 'unknown'];
 

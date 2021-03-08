@@ -5,6 +5,25 @@
 
 A compilation of the code from Jamis Buck's book with some changes and upgrades to suit my needs, which is generating endless mazes for my children.
 
+## Approach
+ Walls
+ ```
+  - -
+ | | |
+  - -
+ | | |
+  _ _
+ ```
+ 
+ Cells and walls are based on an (x,y) coordinates pattern and expressed as (row, column) or (r,c).
+
+ Walls are expressed, like the globe, as latitude (up and down) and longitude (left and right). Latitude walls have an extra column (3 v. 2 cells). Longitude walls have an extra row
+ 
+ ### Examples
+ Cell 0,0 -> lat 0,1 (lat 0,0 is a wall); long 1,0 (long 0,0, wall)
+ Cell 1,0 -> lat 1,0 and 2,0; long 1,1 (not 1,0, wall)
+ Cell 2,1 -> lat 2,1 and 3,1; long 2,1 and 2,2
+
 ## Usage
 
 ### Installation
