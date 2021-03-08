@@ -32,3 +32,7 @@ A compilation of the code from Jamis Buck's book with some changes and upgrades 
 
 ### Compilation
 `npm run build`
+
+## todo
+* Print stylesheet
+* Browser gameplay
