@@ -20,9 +20,9 @@ A compilation of the code from Jamis Buck's book with some changes and upgrades 
  Walls are expressed, like the globe, as latitude (up and down) and longitude (left and right). Latitude walls have an extra column (3 v. 2 cells). Longitude walls have an extra row
  
  ### Examples
- Cell 0,0 -> lat 0,1 (lat 0,0 is a wall); long 1,0 (long 0,0, wall)
- Cell 1,0 -> lat 1,0 and 2,0; long 1,1 (not 1,0, wall)
- Cell 2,1 -> lat 2,1 and 3,1; long 2,1 and 2,2
+ 1. Cell `(0,0)` -> `lat(0,1)` (not `lat(0,0)` is a wall); `long(1,0)` (not `long(0,0)`; wall)
+ 1. Cell `(1,0)` -> `lat(1,0)` and `lat(2,0)`; `long(1,1)` (not `long(1,0)`; wall)
+ 1. Cell `(2,1)` -> `lat(2,1)` and `lat(3,1)`; `long(2,1)` and `long(2,2)`
 
 ## Usage
 
