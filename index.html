@@ -9,6 +9,16 @@
   <meta name="description" content="Generate your own mazes">
   <meta name="author" content="Kate Green @4kategreen">
 
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FZFCKPPTM5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-FZFCKPPTM5');
+  </script>
+
   <link rel="stylesheet" href="assets/main.css">
 </head>
   <body>
@@ -42,9 +52,11 @@
 	  					<input name="width" type="number" placeholder="20" required min="1" />
 	  				</div>
 	  			</div>
-	  			<div class="control">
-	  			  <button id="regenerateSubmit" class="button is-primary">Generate New Maze</button>
-	  			</div>
+	  			<div class="field">
+		  			<div class="control">
+		  			  <button id="regenerateSubmit" class="button is-primary">Generate New Maze</button>
+		  			</div>
+		  		</div>
 	  		</form>
 	  	</div>
 
