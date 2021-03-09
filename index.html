@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="assets/main.css">
 </head>
   <body>
-  	<section class="hero">
+  	<section class="hero is-primary is-small">
   	  <div class="hero-body">
   	    <p class="title">
   	      Maze Monster
@@ -33,13 +33,12 @@
   	  </div>
   	</section>
   	<div class="columns" id="maze">
-
   		<div class="column is-two-thirds">
 	  		<canvas class="p-4" id="mazeDrawing"></canvas>
 	  	</div>
 
 	  	<div class="column is-one-quarter">
-	  		<form id="regenerate">
+	  		<form class="section" id="regenerate">
 	  			<div class="field">
 	  				<label class="label" for="height">Height</label>
 	  				<div class="control">
@@ -54,13 +53,13 @@
 	  			</div>
 	  			<div class="field">
 		  			<div class="control">
-		  			  <button id="regenerateSubmit" class="button is-primary">Generate New Maze</button>
+		  			  <button id="regenerateSubmit" class="button is-link">Generate New Maze</button>
 		  			</div>
 		  		</div>
 	  		</form>
-	  		<div class="field pt-4">
+	  		<div class="field section">
 	  			<div class="control">
-	  			  <button id="printMaze" class="button is-link">Print This Maze</button>
+	  			  <button id="printMaze" class="button is-info">Print This Maze</button>
 	  			</div>
 	  		</div>
 	  	</div>
