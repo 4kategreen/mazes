@@ -9,18 +9,28 @@ const generateNewMaze = (): void => {
   printWalls(myMaze, canvas);
 }
 
+const printMaze = (): void => {
+    let win=window.open(),
+        canvas = document.getElementById("mazeDrawing");
+
+    win.document.write("<br><img src='"+canvas.toDataURL()+"'/>");
+    win.print();
+}
+
 const initialize = (): void => {
   let maze = document.getElementById('maze');
 
-  let button = document.getElementById("regenerateSubmit"),
-      form = document.getElementById("regenerate"),
+  let regenerateSubmit = document.getElementById("regenerateSubmit"),
+      printMazeSubmit = document.getElementById("printMaze"),
+      regenerate = document.getElementById("regenerate"),
       canvas = document.getElementById("mazeDrawing");
 
+
+  regenerateSubmit.addEventListener("click", generateNewMaze);
+  printMazeSubmit.addEventListener("click", printMaze);
+  regenerate.addEventListener("submit", (e) => e.preventDefault(), true);
   canvas.height = canvas.parentElement.clientWidth * .9;
   canvas.width = canvas.parentElement.clientWidth * .9;
-
-  form.addEventListener("submit", (e) => e.preventDefault(), true);
-  button.addEventListener("click", generateNewMaze);
 
   if (maze) {
     let myMaze = createMaze(50,50)
@@ -28,7 +38,7 @@ const initialize = (): void => {
   }
 }
 
-function printWalls(w: typeof Walls, canvas: HTMLCanvasElement): void {
+const printWalls = (w: typeof Walls, canvas: HTMLCanvasElement): void => {
   let ctx = canvas.getContext('2d'),
       latUnit = canvas.height / w.rows,
       longUnit = canvas.width / w.columns;
