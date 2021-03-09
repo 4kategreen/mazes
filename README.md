@@ -33,6 +33,10 @@ A compilation of the code from Jamis Buck's book with some changes and upgrades 
 ### Compilation
 `npm run build`
 
+### Running Locally
+Open `index.html` in your browser
+
 ## todo
-* Print stylesheet
+~* Print stylesheet~
 * Browser gameplay
+* Masking
