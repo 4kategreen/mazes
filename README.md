@@ -37,6 +37,8 @@ A compilation of the code from Jamis Buck's book with some changes and upgrades 
 Open `index.html` in your browser
 
 ## todo
-~* Print stylesheet~
 * Browser gameplay
 * Masking
+
+### Done
+~Print stylesheet~
