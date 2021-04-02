@@ -33,7 +33,7 @@ const initialize = (): void => {
   canvas.width = canvas.parentElement.clientWidth * .9;
 
   if (maze) {
-    let myMaze = createMaze(50,50)
+    let myMaze = createMaze(40, 40);
     printWalls(myMaze, canvas);
   }
 }
