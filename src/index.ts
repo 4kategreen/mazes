@@ -49,7 +49,7 @@ const printWalls = (w: typeof Walls, canvas: HTMLCanvasElement): void => {
 
     for (let r=0;r<w.rows;r++) {
       for (let c=0;c<=w.columns;c++) {
-        if (w.latitude[r][c] === WallOptions.Closed) {
+        if (w.longitude[r][c] !== WallOptions.Open) {
           let stationary = c*longUnit,
               start = r*latUnit,
               end = (r+1)*latUnit;
@@ -64,7 +64,7 @@ const printWalls = (w: typeof Walls, canvas: HTMLCanvasElement): void => {
 
     for (let r=0;r<=w.rows;r++) {
       for (let c=0;c<w.columns;c++) {
-        if (w.longitude[r][c] === WallOptions.Closed) {
+        if (w.latitude[r][c] !== WallOptions.Open) {
           let stationary = r*latUnit,
               start = c*longUnit,
               end = (c+1)*longUnit;

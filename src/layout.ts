@@ -13,9 +13,9 @@ const enum WallOptions {
 	Locked,
 	Closed,
 	Open
-}
+};
 
-function createMaze(rows: number, columns: number): Walls {
+const createMaze = (rows: number, columns: number): Walls => {
 	let walls: Walls = {
 		rows: rows,
 		columns: columns,
@@ -23,24 +23,28 @@ function createMaze(rows: number, columns: number): Walls {
 		longitude: []
 	};
 
-	for (let r=0; r<walls.rows; r++) {
+	for (let r=0; r<=walls.rows; r++) {
 		walls.latitude[r] = [];
-		for (let c=0; c<=walls.columns; c++) {
-			walls.latitude[r][c] = WallOptions.Closed;
+		for (let c=0; c<walls.columns; c++) {
+			walls.latitude[r][c] = (r === 0 || r === walls.rows) ?
+				WallOptions.Locked :
+				WallOptions.Closed;
 		}
 	}
 
-	for (let r=0; r<=walls.rows; r++) {
+	for (let r=0; r<walls.rows; r++) {
 		walls.longitude[r] = [];
-		for (let c=0; c<walls.columns; c++) {
-			walls.longitude[r][c] = WallOptions.Closed;
+		for (let c=0; c<=walls.columns; c++) {
+			walls.longitude[r][c] = (c === 0 || c === walls.columns) ? 
+				WallOptions.Locked : 
+				WallOptions.Closed;
 		}
 	}
 
 	return recursiveBacktracker(walls);
 };
 
-function recursiveBacktracker(w: Walls): Walls {
+const recursiveBacktracker = (w: Walls): Walls => {
 	let stack: Cell[] = [];
 	stack.push(randomCell(w.rows, w.columns))
 
@@ -53,9 +57,9 @@ function recursiveBacktracker(w: Walls): Walls {
 		} else {
 			let [r,c,type] = findWall(current, nextCell);
 			if (type === 'latitude') {
-				w.latitude[r][c] = WallOptions.Open;
-			} else if (type === 'longitude') {
 				w.longitude[r][c] = WallOptions.Open;
+			} else if (type === 'longitude') {
+				w.latitude[r][c] = WallOptions.Open;
 			}
 
 			stack.push(nextCell);
@@ -63,13 +67,13 @@ function recursiveBacktracker(w: Walls): Walls {
 	}
 
 	// entrance and exit
-	w.longitude[0][0] = WallOptions.Open;
-	w.longitude[w.rows][w.columns-1] = WallOptions.Open;
+	w.latitude[0][0] = WallOptions.Open;
+	w.latitude[w.rows][w.columns-1] = WallOptions.Open;
 
 	return w;
 };
 
-function moveToNextCell(cell: Cell, walls: Walls): Cell|null {
+const moveToNextCell = (cell: Cell, walls: Walls): Cell|null => {
 	let neighbors: Cell[] = [];
 
 	if (cell.row > 0) // north neighbor
@@ -88,26 +92,26 @@ function moveToNextCell(cell: Cell, walls: Walls): Cell|null {
 	return availableCells[Math.floor(Math.random()*availableCells.length)]
 }
 
-function getCellLinks(cell:Cell, walls: Walls): number {
+const getCellLinks = (cell:Cell, walls: Walls): number => {
 	let links = 0;
 
 	if (walls.latitude[cell.row][cell.column] === WallOptions.Open) links++;
-	if (walls.latitude[cell.row][cell.column+1] === WallOptions.Open) links++;
+	if (walls.latitude[cell.row+1][cell.column] === WallOptions.Open) links++;
 
 	if (walls.longitude[cell.row][cell.column] === WallOptions.Open) links++;
-	if (walls.longitude[cell.row+1][cell.column] === WallOptions.Open) links++;
+	if (walls.longitude[cell.row][cell.column+1] === WallOptions.Open) links++;
 
 	return links;
 }
 
-function randomCell(rows: number, columns: number): Cell {
+const randomCell = (rows: number, columns: number): Cell => {
 	return {
 		row: Math.floor(Math.random()*rows), 
 		column: Math.floor(Math.random()*columns)
 	}
 };
 
-function findWall(b1: Cell, b2: Cell): Wall {
+const findWall = (b1: Cell, b2: Cell): Wall => {
 	let singleWall: Wall = [0, 0, 'unknown'];
 
 	if (b1.row === b2.row) {
