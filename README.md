@@ -37,8 +37,9 @@ A compilation of the code from Jamis Buck's book with some changes and upgrades 
 Open `index.html` in your browser
 
 ## todo
-* Browser gameplay
 * Masking
+* Browser gameplay
 
 ### Done
 ~Print stylesheet~
+~* About Page~

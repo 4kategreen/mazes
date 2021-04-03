@@ -23,72 +23,73 @@
 
   <link rel="stylesheet" href="assets/main.css">
 </head>
-  <body>
-  	<section class="hero is-primary is-small">
-  	  <div class="hero-body">
-  	    <h1 class="title">
-  	      Maze Monster
-  	    </h1>
-  	    <h2 class="subtitle">
-  	      Generate all teh mazes
-  	    </h2>
-  	  </div>
-  	</section>
-  	<div class="columns" id="maze">
-  		<div class="column is-two-thirds">
-	  		<canvas class="p-4" id="mazeDrawing"></canvas>
-	  	</div>
 
-	  	<div class="column is-one-third">
-        <div class="section">
-          <h3 class="title is-h3">Generate New Maze</h3>
-  	  		<form id="regenerate">
-  	  			<div class="field">
-  	  				<label class="label" for="height">Height</label>
-  	  				<div class="control">
-  	  					<input name="height" type="number" placeholder="20" required min="1" />
-  	  				</div>
-  	  			</div>
-  	  			<div class="field">
-  	  				<label class="label" for="width">Width</label>
-  	  				<div class="control">
-  	  					<input name="width" type="number" placeholder="20" required min="1" />
-  	  				</div>
-  	  			</div>
-  	  			<div class="field">
-  		  			<div class="control">
-  		  			  <button id="regenerateSubmit" class="button is-link">Generate New Maze</button>
-  		  			</div>
-  		  		</div>
-            <div class="field">
-              <div class="control">
-                <button id="printMaze" class="button is-info">Print This Maze</button>
-              </div>
-            </div>
-  	  		</form>
-        </div>
-
-        <div class="section">
-          <h3 class="title is-h3">About Maze Monster</h3>
-          <p>I'm <a href="https://kategreen.codes">Kate Green</a> and I created Maze Monster to generate fun, challenging mazes for my kids during the covid-19 pandemic. I wanted to give them mazes of any size and be able to print them for them when they ask for them (which is often!).</p>
-
-          <p>From there, I decided to put this online to share with others because I know many parents and teachers who would love to have a resource to generate mazes for their children and students.</p>
-
-          <p>For me, it's been a fun challenge to generate mazes with code, brush up on Typescript, and run all of this code in your browser. Check out my <a href="https://github.com/4kategreen/mazes">source code</a>!</p>
-        </div>
-	  	</div>
-
+<body>
+	<section class="hero is-primary is-small">
+	  <div class="hero-body">
+	    <h1 class="title">
+	      Maze Monster
+	    </h1>
+	    <h2 class="subtitle">
+	      Generate all teh mazes
+	    </h2>
+	  </div>
+	</section>
+	<div class="columns" id="maze">
+		<div class="column is-two-thirds">
+  		<canvas class="p-4" id="mazeDrawing"></canvas>
   	</div>
 
-  	<footer class="footer">
-	  <div class="content has-text-centered">
-	    <p>
-	      <strong>Maze Monster</strong> by <a href="https://www.kategreen.codes">Kate Green</a>. The <a href="https://github.com/4kategreen/mazes">source code</a> is licensed
-	      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
-	    </p>
-	  </div>
-	</footer>
+  	<div class="column">
+      <div class="column">
+        <h3 class="title is-h3">Generate New Maze</h3>
+	  		<form id="regenerate">
+	  			<div class="field">
+	  				<label class="label" for="height">Height</label>
+	  				<div class="control">
+	  					<input name="height" type="number" placeholder="20" required min="1" />
+	  				</div>
+	  			</div>
+	  			<div class="field">
+	  				<label class="label" for="width">Width</label>
+	  				<div class="control">
+	  					<input name="width" type="number" placeholder="20" required min="1" />
+	  				</div>
+	  			</div>
+	  			<div class="field">
+		  			<div class="control">
+		  			  <button id="regenerateSubmit" class="button is-link">Generate New Maze</button>
+		  			</div>
+		  		</div>
+          <div class="field">
+            <div class="control">
+              <button id="printMaze" class="button is-info">Print This Maze</button>
+            </div>
+          </div>
+	  		</form>
+      </div>
 
-  	<script src="mazes.js"></script>
-  </body>
+      <div class="column">
+        <h3 class="title is-h3">About Maze Monster</h3>
+        <p class="block">I'm <a href="https://kategreen.codes">Kate Green</a> and I created Maze Monster to generate fun, challenging mazes for my kids during the covid-19 pandemic. I wanted to give them mazes of any size and be able to print them for them when they ask for them (which is often!).</p>
+
+        <p class="block">From there, I decided to put this online to share with others because I know many parents and teachers who would love to have a resource to generate mazes for their children and students.</p>
+
+        <p class="block">For me, it's been a fun challenge to generate mazes with code, brush up on Typescript, and run all of this code in your browser.</p>
+      </div>
+  	</div>
+
+	</div>
+
+	<footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        <strong>Maze Monster</strong> by <a href="https://www.kategreen.codes">Kate Green</a>. The <a href="https://github.com/4kategreen/mazes">source code</a> is licensed
+        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+      </p>
+    </div>
+  </footer>
+
+	<script src="mazes.js"></script>
+</body>
 </html>
