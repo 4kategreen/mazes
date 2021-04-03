@@ -1,4 +1,4 @@
-const { Walls, createMaze } = require('./layout');
+const { Walls, createMaze, WallOptions } = require('./layout');
 
 const generateNewMaze = (): void => {
   let height = document.getElementsByName("height")[0],
@@ -29,8 +29,8 @@ const initialize = (): void => {
   regenerateSubmit.addEventListener("click", generateNewMaze);
   printMazeSubmit.addEventListener("click", printMaze);
   regenerate.addEventListener("submit", (e) => e.preventDefault(), true);
-  canvas.height = canvas.parentElement.clientWidth * .9;
-  canvas.width = canvas.parentElement.clientWidth * .9;
+  canvas.height = canvas.parentElement.clientWidth * .95;
+  canvas.width = canvas.parentElement.clientWidth * .95;
 
   if (maze) {
     let myMaze = createMaze(40, 40);
@@ -49,7 +49,7 @@ const printWalls = (w: typeof Walls, canvas: HTMLCanvasElement): void => {
 
     for (let r=0;r<w.rows;r++) {
       for (let c=0;c<=w.columns;c++) {
-        if (w.latitude[r][c]) {
+        if (w.latitude[r][c] === WallOptions.Closed) {
           let stationary = c*longUnit,
               start = r*latUnit,
               end = (r+1)*latUnit;
@@ -64,7 +64,7 @@ const printWalls = (w: typeof Walls, canvas: HTMLCanvasElement): void => {
 
     for (let r=0;r<=w.rows;r++) {
       for (let c=0;c<w.columns;c++) {
-        if (w.longitude[r][c]) {
+        if (w.longitude[r][c] === WallOptions.Closed) {
           let stationary = r*latUnit,
               start = c*longUnit,
               end = (c+1)*longUnit;

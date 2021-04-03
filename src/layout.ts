@@ -1,14 +1,19 @@
 type Walls = {
 	rows: number,
 	columns: number,
-	latitude: boolean[][], // rows, columns+1
-	longitude: boolean[][] // rows+1, columns
+	latitude: WallOptions[][], // rows, columns+1
+	longitude: WallOptions[][] // rows+1, columns
 }
 type Cell = {
 	row: number,
 	column: number
 };
 type Wall = [number, number, string];
+const enum WallOptions {
+	Locked,
+	Closed,
+	Open
+}
 
 function createMaze(rows: number, columns: number): Walls {
 	let walls: Walls = {
@@ -21,14 +26,14 @@ function createMaze(rows: number, columns: number): Walls {
 	for (let r=0; r<walls.rows; r++) {
 		walls.latitude[r] = [];
 		for (let c=0; c<=walls.columns; c++) {
-			walls.latitude[r][c] = true;
+			walls.latitude[r][c] = WallOptions.Closed;
 		}
 	}
 
 	for (let r=0; r<=walls.rows; r++) {
 		walls.longitude[r] = [];
 		for (let c=0; c<walls.columns; c++) {
-			walls.longitude[r][c] = true;
+			walls.longitude[r][c] = WallOptions.Closed;
 		}
 	}
 
@@ -48,9 +53,9 @@ function recursiveBacktracker(w: Walls): Walls {
 		} else {
 			let [r,c,type] = findWall(current, nextCell);
 			if (type === 'latitude') {
-				w.latitude[r][c] = false;
+				w.latitude[r][c] = WallOptions.Open;
 			} else if (type === 'longitude') {
-				w.longitude[r][c] = false;
+				w.longitude[r][c] = WallOptions.Open;
 			}
 
 			stack.push(nextCell);
@@ -58,8 +63,8 @@ function recursiveBacktracker(w: Walls): Walls {
 	}
 
 	// entrance and exit
-	w.longitude[0][0] = false;
-	w.longitude[w.rows][w.columns-1] = false;
+	w.longitude[0][0] = WallOptions.Open;
+	w.longitude[w.rows][w.columns-1] = WallOptions.Open;
 
 	return w;
 };
@@ -86,11 +91,11 @@ function moveToNextCell(cell: Cell, walls: Walls): Cell|null {
 function getCellLinks(cell:Cell, walls: Walls): number {
 	let links = 0;
 
-	if (!walls.latitude[cell.row][cell.column]) links++;
-	if (!walls.latitude[cell.row][cell.column+1]) links++;
+	if (walls.latitude[cell.row][cell.column] === WallOptions.Open) links++;
+	if (walls.latitude[cell.row][cell.column+1] === WallOptions.Open) links++;
 
-	if (!walls.longitude[cell.row][cell.column]) links++;
-	if (!walls.longitude[cell.row+1][cell.column]) links++;
+	if (walls.longitude[cell.row][cell.column] === WallOptions.Open) links++;
+	if (walls.longitude[cell.row+1][cell.column] === WallOptions.Open) links++;
 
 	return links;
 }
@@ -121,4 +126,4 @@ function findWall(b1: Cell, b2: Cell): Wall {
 };
 
 
-export { Walls, createMaze, recursiveBacktracker }
+export { Walls, createMaze, WallOptions }
