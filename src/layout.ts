@@ -1,3 +1,15 @@
+/**
+ *  _ _ _
+ * |_|_|_| cell(0,0) = walls(lat(0,0), lat(0,1), long(0,0), long(1,0))
+ * |_|_|_| cell(2,0) = walls(lat(2,0), lat(3,0), long(0,0), long(1,0))
+ * |_|_|_| cell(0,2) = walls(lat(0,0), lat(0,1), long(2,0), long(3,0))
+ * 
+ * Lat walls always keeps the cell x value and the y value is cell(y) and then cell(y+1)
+ * 	cell(x,y) = lat(x,y), lat(x,y+1)
+ * Long walls always keeps the cell y value and the x value is cell(x) and then cell(x+1)
+ * 	cell(x,y) = long(x,y), long(x+1,y)
+ **/
+
 type Walls = {
 	rows: number,
 	columns: number,
