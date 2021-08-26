@@ -1,5 +1,31 @@
 const { Walls, createMaze, WallOptions } = require('./layout');
 
+const toggleMazeSize = (clicked): void => {
+  let size = clicked.target;
+
+  let removeActive = size.parentElement.parentElement.getElementsByClassName('is-active');
+  removeActive[0].removeAttribute('class', 'is-active');
+  size.parentElement.setAttribute('class', 'is-active');
+
+  switch (size.innerText) {
+    case 'Hard':
+      document.getElementsByName("height")[0].value = 80;
+      document.getElementsByName("width")[0].value = 100;
+      break;
+    case 'Medium':
+      document.getElementsByName("height")[0].value = 40;
+      document.getElementsByName("width")[0].value = 50;
+      break;
+    case 'Easy': // set in instantiation
+    default:
+      document.getElementsByName("height")[0].value = 20;
+      document.getElementsByName("width")[0].value = 25;
+      break;
+  }
+
+  generateNewMaze()
+}
+
 const generateNewMaze = (): void => {
   let height = document.getElementsByName("height")[0],
       width = document.getElementsByName("width")[0],
@@ -23,11 +49,12 @@ const initialize = (): void => {
   let regenerateSubmit = document.getElementById("regenerateSubmit"),
       printMazeSubmit = document.getElementById("printMaze"),
       regenerate = document.getElementById("regenerate"),
-      canvas = document.getElementById("mazeDrawing");
-
+      canvas = document.getElementById("mazeDrawing"),
+      difficulty = document.getElementById("difficultyToggle");
 
   regenerateSubmit.addEventListener("click", generateNewMaze);
   printMazeSubmit.addEventListener("click", printMaze);
+  difficulty.addEventListener("click", toggleMazeSize)
   regenerate.addEventListener("submit", (e) => e.preventDefault(), true);
   canvas.height = canvas.parentElement.clientWidth * .95;
   canvas.width = canvas.parentElement.clientWidth * .95;

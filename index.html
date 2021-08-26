@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Maze Monster: Generate and Print Mazes</title>
-  <meta name="description" content="Generate and print your own mazes">
+  <meta name="description" content="Free printable mazes. Generate as many mazes as you want. They come in easy, medium, hard, and custom sizes!">
   <meta name="author" content="Kate Green @4kategreen">
   <meta name=”robots” content="index, follow">
 
@@ -44,19 +44,26 @@
       <div class="column">
         <h3 class="title is-h3">Generate New Maze</h3>
 	  		<form id="regenerate">
-	  			<div class="field">
+	  			<div class="tabs is-toggle is-fullwidth" id="difficultyToggle">
+	  				<ul>
+	  					<li><a>Easy</a></li>
+	  					<li class="is-active"><a>Medium</a></li>
+	  					<li><a>Hard</a></li>
+	  				</ul>
+	  			</div>
+	  			<div class="field to-hide is-hidden">
 	  				<label class="label" for="height">Height</label>
 	  				<div class="control">
-	  					<input name="height" type="number" placeholder="20" required min="1" />
+	  					<input name="height" type="number" placeholder="40" required min="1" />
 	  				</div>
 	  			</div>
-	  			<div class="field">
+	  			<div class="field to-hide is-hidden">
 	  				<label class="label" for="width">Width</label>
 	  				<div class="control">
-	  					<input name="width" type="number" placeholder="20" required min="1" />
+	  					<input name="width" type="number" placeholder="40" required min="1" />
 	  				</div>
 	  			</div>
-	  			<div class="field">
+	  			<div class="field is-hidden">
 		  			<div class="control">
 		  			  <button id="regenerateSubmit" class="button is-link">Generate New Maze</button>
 		  			</div>
