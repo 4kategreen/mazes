@@ -35,57 +35,76 @@
 	    </h2>
 	  </div>
 	</section>
+
 	<div class="columns" id="maze">
-		<div class="column is-two-thirds">
-  		<canvas class="p-4" id="mazeDrawing"></canvas>
+		<div class="column">
+      <div class="column content">
+      	<h3 class="title is-h3">Why Should Kids Do Mazes?</h3>
+      	<p class="block">Mazes are great for kids! In addition to being really fun, there are a number of benefits for our kids. These include:</p>
+      	<ul>
+      		<li><b>Visual Perceptual Skills</b>: doing mazes are helpful to develop spatial reasoning. While kids work to find their way through a maze, they are developing their ability to understand their position in space</li>
+      		<li><b>Fine Motor Skills</b>: for kids who need help developing fine motor skills, mazes are a great way to work on it. They don't even know they're improving because they're doing something they enjoy</li>
+      		<li><b>Problem Solving</b>: doing maze after maze helps kids start to plan and create methods for problem solving</li>
+      		<li><b>Spatial Reasoning</b>: trying to navigate a "real" maze, something like a corn maze, can help all of us get better at understanding where we are in space</li>
+      	</ul>
+      	<p class="block">I learned about the developmental benefits of mazes from <a href="https://www.nspt4kids.com/parenting/top-5-reasons-why-your-child-should-practice-mazes-at-home/">Top 5 Reasons Your Child Should Practice Mazes at Home</a>. I also talked to occupational therapist Kathee Cammisa, who works with children, about the reasons she uses mazes with her patients.</p>
+
+      	<h3 class="title is-h3">More About Mazes</h3>
+      	<ul>
+	      	<li><a href="https://www.nbm.org/brief-history-mazes/">A Brief History of Mazes</a></li>
+	      	<li><a href="https://www.nationalgeographic.com/science/article/140730-science-mazes-labyrinth-brain-neuroscience">A Neuroscientist's Perspective on Mazes</a></li>
+	      	<li><a href="https://rochester.kidsoutandabout.com/content/twelve-tips-navigating-corn-maze-children">Tips for Navigating a Corn Maze</a></li>
+	      	<li><a href="https://www.mazeplay.com/Locator.aspx">Corn Mazes Near You</a></li>
+	      </ul>
+
+	      <h3 class="title is-h3">About Maze Monster</h3>
+	      <p class="block">I'm <a href="https://kategreen.codes">Kate Green</a> and I created Maze Monster to generate fun, challenging mazes for my kids during the covid-19 pandemic. I wanted to give them mazes of any size and be able to print them for them when they ask for them (which is often!).</p>
+
+	      <p class="block">From there, I decided to put this online to share with others because I know many parents and teachers who would love to have a resource to generate mazes for their children and students.</p>
+
+	      <p class="block">For me, it's been a fun challenge to generate mazes with code, brush up on Typescript, and run all of this code in your browser.</p>
+	    </div>
+		</div>
+
+		<div class="column">
+  		<div class="card">
+				<div class="card-content">
+					<h3 class="title is-h3">Generate New Maze</h3>
+					<form id="regenerate">
+						<div class="tabs is-toggle is-fullwidth" id="difficultyToggle">
+							<ul>
+								<li><a>Easy</a></li>
+								<li class="is-active"><a>Medium</a></li>
+								<li><a>Hard</a></li>
+							</ul>
+						</div>
+						<div class="field to-hide is-hidden">
+							<label class="label" for="height">Height</label>
+							<div class="control">
+								<input name="height" type="number" placeholder="40" required min="1" />
+							</div>
+						</div>
+						<div class="field to-hide is-hidden">
+							<label class="label" for="width">Width</label>
+							<div class="control">
+								<input name="width" type="number" placeholder="40" required min="1" />
+							</div>
+						</div>
+						<div class="field is-hidden">
+							<div class="control">
+							  <button id="regenerateSubmit" class="button is-link">Generate New Maze</button>
+							</div>
+						</div>
+					  <div class="field">
+					    <div class="control">
+					      <button id="printMaze" class="button is-info">Print This Maze</button>
+					    </div>
+					  </div>
+					</form>
+					<canvas class="p-4" id="mazeDrawing"></canvas>
+				</div>
+			</div>
   	</div>
-
-  	<div class="column">
-      <div class="column">
-        <h3 class="title is-h3">Generate New Maze</h3>
-	  		<form id="regenerate">
-	  			<div class="tabs is-toggle is-fullwidth" id="difficultyToggle">
-	  				<ul>
-	  					<li><a>Easy</a></li>
-	  					<li class="is-active"><a>Medium</a></li>
-	  					<li><a>Hard</a></li>
-	  				</ul>
-	  			</div>
-	  			<div class="field to-hide is-hidden">
-	  				<label class="label" for="height">Height</label>
-	  				<div class="control">
-	  					<input name="height" type="number" placeholder="40" required min="1" />
-	  				</div>
-	  			</div>
-	  			<div class="field to-hide is-hidden">
-	  				<label class="label" for="width">Width</label>
-	  				<div class="control">
-	  					<input name="width" type="number" placeholder="40" required min="1" />
-	  				</div>
-	  			</div>
-	  			<div class="field is-hidden">
-		  			<div class="control">
-		  			  <button id="regenerateSubmit" class="button is-link">Generate New Maze</button>
-		  			</div>
-		  		</div>
-          <div class="field">
-            <div class="control">
-              <button id="printMaze" class="button is-info">Print This Maze</button>
-            </div>
-          </div>
-	  		</form>
-      </div>
-
-      <div class="column">
-        <h3 class="title is-h3">About Maze Monster</h3>
-        <p class="block">I'm <a href="https://kategreen.codes">Kate Green</a> and I created Maze Monster to generate fun, challenging mazes for my kids during the covid-19 pandemic. I wanted to give them mazes of any size and be able to print them for them when they ask for them (which is often!).</p>
-
-        <p class="block">From there, I decided to put this online to share with others because I know many parents and teachers who would love to have a resource to generate mazes for their children and students.</p>
-
-        <p class="block">For me, it's been a fun challenge to generate mazes with code, brush up on Typescript, and run all of this code in your browser.</p>
-      </div>
-  	</div>
-
 	</div>
 
 	<footer class="footer">
