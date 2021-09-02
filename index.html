@@ -21,14 +21,8 @@
     gtag('config', 'AW-307646207');
 
 		function gtag_report_conversion(url) {
-		  var callback = function () {
-		    if (typeof(url) != 'undefined') {
-		      window.location = url;
-		    }
-		  };
 		  gtag('event', 'conversion', {
-		      'send_to': 'AW-307646207/TjuVCNyfjfECEP-d2ZIB',
-		      'event_callback': callback
+		      'send_to': 'AW-307646207/TjuVCNyfjfECEP-d2ZIB'
 		  });
 		  return false;
 		}
