@@ -54,6 +54,7 @@ const initialize = (): void => {
 
   regenerateSubmit.addEventListener("click", generateNewMaze);
   printMazeSubmit.addEventListener("click", printMaze);
+  printMazeSubmit.addEventListener("click", gtag_report_conversion);
   difficulty.addEventListener("click", toggleMazeSize)
   regenerate.addEventListener("submit", (e) => e.preventDefault(), true);
   canvas.height = canvas.parentElement.clientWidth * .95;
