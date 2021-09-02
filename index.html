@@ -19,6 +19,22 @@
 
     gtag('config', 'G-FZFCKPPTM5');
     gtag('config', 'AW-307646207');
+
+		function gtag_report_conversion(url) {
+		  var callback = function () {
+		    if (typeof(url) != 'undefined') {
+		      window.location = url;
+		    }
+		  };
+		  gtag('event', 'conversion', {
+		      'send_to': 'AW-307646207/m5dpCOb2jPECEP-d2ZIB',
+		      'event_callback': callback
+		  });
+		  return false;
+}
+</script>
+
+
   </script>
   <script data-ad-client="ca-pub-8804715523818259" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
