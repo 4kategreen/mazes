@@ -39,6 +39,7 @@ const printMaze = (): void => {
     let win=window.open(),
         canvas = document.getElementById("mazeDrawing");
 
+    win.document.write("<h2>mazemonster.com</h2><p>Free printable mazes. Generate as many mazes as you want.</p>")
     win.document.write("<br><img src='"+canvas.toDataURL()+"'/>");
     win.print();
 }
