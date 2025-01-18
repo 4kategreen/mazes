@@ -3,14 +3,14 @@
   "version": "2.3.8",
   "description": "",
   "engines": {
-    "node": "16.8.0"
+    "node": ">18.0.0"
   },
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "build": "esbuild src/index.ts --bundle --sourcemap --outfile=mazes.js",
     "build:watch": "npm run build -- --watch",
-    "css-build": "node-sass src/css/main.scss assets/main.css",
+    "css-build": "sass --load-path=node_modules src/css/main.scss assets/main.css",
     "css-watch": "npm run css-build -- --watch"
   },
   "repository": {
@@ -28,8 +28,8 @@
   },
   "devDependencies": {
     "@types/node": "^16.7.2",
-    "bulma": "^0.9.2",
+    "bulma": "^1.0.0",
     "esbuild": "^0.12.23",
-    "node-sass": "^9.0.0"
+    "sass": "^1.83.4"
   }
 }
