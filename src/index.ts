@@ -69,15 +69,15 @@ const initialize = (): void => {
 
 const printWalls = (w: typeof Walls, canvas: HTMLCanvasElement): void => {
   let ctx = canvas.getContext('2d'),
-      latUnit = canvas.height / w.rows,
-      longUnit = canvas.width / w.columns;
+      latUnit = canvas.height / w.numRows,
+      longUnit = canvas.width / w.numColumns;
 
   if (ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = 'black';
 
-    for (let r=0;r<w.rows;r++) {
-      for (let c=0;c<=w.columns;c++) {
+    for (let r=0;r<w.numRows;r++) {
+      for (let c=0;c<=w.numColumns;c++) {
         if (w.longitude[r][c] !== WallOptions.Open) {
           let stationary = c*longUnit,
               start = r*latUnit,
@@ -91,8 +91,8 @@ const printWalls = (w: typeof Walls, canvas: HTMLCanvasElement): void => {
       }
     }
 
-    for (let r=0;r<=w.rows;r++) {
-      for (let c=0;c<w.columns;c++) {
+    for (let r=0;r<=w.numRows;r++) {
+      for (let c=0;c<w.numColumns;c++) {
         if (w.latitude[r][c] !== WallOptions.Open) {
           let stationary = r*latUnit,
               start = c*longUnit,

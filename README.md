@@ -6,23 +6,25 @@
 A compilation of the code from Jamis Buck's book with some changes and upgrades to suit my needs, which is generating endless mazes for my children.
 
 ## Approach
- Walls
- ```
-  - -
- | | |
-  - -
- | | |
-  _ _
- ```
+ Maze data is stored by the state of its walls. It has rows (latitude) and columns (longitude). For each piece of a wall, it can be Closed (has a wall), Open (doesn't have a wall), or Locked (can't be changed; an edge).
+
+ To traverse the maze during its creation, we use the cells, or the spaces between the walls.
  
  Cells and walls are based on an (x,y) coordinates pattern and expressed as (row, column) or (r,c).
 
- Walls are expressed, like the globe, as latitude (up and down) and longitude (left and right). Latitude walls have an extra column (3 v. 2 cells). Longitude walls have an extra row
+ Walls are expressed, like a map, as latitude (up and down) and longitude (left and right). Latitude walls have an extra column (3 v. 2 cells). Longitude walls have an extra row.
  
  ### Examples
- 1. Cell `(0,0)` -> `lat(0,1)` (not `lat(0,0)` is a wall); `long(1,0)` (not `long(0,0)`; wall)
- 1. Cell `(1,0)` -> `lat(1,0)` and `lat(2,0)`; `long(1,1)` (not `long(1,0)`; wall)
- 1. Cell `(2,1)` -> `lat(2,1)` and `lat(3,1)`; `long(2,1)` and `long(2,2)`
+  ```
+  _ _ _
+ |a|_|b| a = cell(0,0) = walls(top:(0,0,lat), right:(1,0,long), bottom:(0,1,lat), left:(0,0,long))
+ |_|_|_| b = cell(2,0) = walls(top:(2,0,lat), right:(3,0,long), bottom:(0,1,lat), left:(2,0,long))
+ |c|_|_| c = cell(0,2) = walls(top:(0,2,lat), right:(1,2,long), bottom:(0,3,lat), left:(0,2,long))
+ ```
+
+ Top and Left walls are always the same as the cell.
+ Bottom walls are always y+1 more than the y value of the cell
+ Right walls are always x+1 more than the x value of the cell
 
 ## Usage
 
@@ -31,15 +33,7 @@ A compilation of the code from Jamis Buck's book with some changes and upgrades 
 1. `npm i`
 
 ### Compilation
-`npm run build`
+`npm run build` or `npm run build:watch`
 
 ### Running Locally
 Open `index.html` in your browser
-
-## todo
-* Masking
-* Browser gameplay
-
-### Done
-~Print stylesheet~
-~* About Page~
