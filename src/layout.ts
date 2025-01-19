@@ -1,53 +1,26 @@
-/**
- *  _ _ _
- * |_|_|_| cell(0,0) = walls(lat(0,0), lat(0,1), long(0,0), long(1,0))
- * |_|_|_| cell(2,0) = walls(lat(2,0), lat(3,0), long(0,0), long(1,0))
- * |_|_|_| cell(0,2) = walls(lat(0,0), lat(0,1), long(2,0), long(3,0))
- * 
- * Lat walls always keeps the cell x value and the y value is cell(y) and then cell(y+1)
- * 	cell(x,y) = lat(x,y), lat(x,y+1)
- * Long walls always keeps the cell y value and the x value is cell(x) and then cell(x+1)
- * 	cell(x,y) = long(x,y), long(x+1,y)
- **/
-
-type Walls = {
-	rows: number,
-	columns: number,
-	latitude: WallOptions[][], // rows, columns+1
-	longitude: WallOptions[][] // rows+1, columns
-}
-type Cell = {
-	row: number,
-	column: number
-};
-type Wall = [number, number, string];
-const enum WallOptions {
-	Locked,
-	Closed,
-	Open
-};
+import { Walls, Wall, CellLocation, CellProperties, CellWalls, WallOptions } from './types';
 
 const createMaze = (rows: number, columns: number): Walls => {
 	let walls: Walls = {
-		rows: rows,
-		columns: columns,
+		numRows: rows,
+		numColumns: columns,
 		latitude: [],
 		longitude: []
 	};
 
-	for (let r=0; r<=walls.rows; r++) {
+	for (let r=0; r<=walls.numRows; r++) {
 		walls.latitude[r] = [];
-		for (let c=0; c<walls.columns; c++) {
-			walls.latitude[r][c] = (r === 0 || r === walls.rows) ?
+		for (let c=0; c<walls.numColumns; c++) {
+			walls.latitude[r][c] = (r === 0 || r === walls.numRows) ?
 				WallOptions.Locked :
 				WallOptions.Closed;
 		}
 	}
 
-	for (let r=0; r<walls.rows; r++) {
+	for (let r=0; r<walls.numRows; r++) {
 		walls.longitude[r] = [];
-		for (let c=0; c<=walls.columns; c++) {
-			walls.longitude[r][c] = (c === 0 || c === walls.columns) ? 
+		for (let c=0; c<=walls.numColumns; c++) {
+			walls.longitude[r][c] = (c === 0 || c === walls.numColumns) ? 
 				WallOptions.Locked : 
 				WallOptions.Closed;
 		}
@@ -57,45 +30,46 @@ const createMaze = (rows: number, columns: number): Walls => {
 };
 
 const recursiveBacktracker = (w: Walls): Walls => {
-	let stack: Cell[] = [];
-	stack.push(randomCell(w.rows, w.columns))
+	let stack: CellLocation[] = [];
+	stack.push(randomCell(w.numRows, w.numColumns))
 
 	while (stack.length > 0) {
-		let current: Cell = stack[stack.length -1];
-		let nextCell: Cell|null = moveToNextCell(current, w);
+		let current: CellLocation = stack[stack.length -1];
+		let nextCell: CellLocation|null = moveToNextCell(current, w);
 
 		if (nextCell === null) {
 			stack.pop();
 		} else {
-			let [r,c,type] = findWall(current, nextCell);
-			if (type === 'latitude') {
-				w.longitude[r][c] = WallOptions.Open;
-			} else if (type === 'longitude') {
-				w.latitude[r][c] = WallOptions.Open;
+			let {row,column,orientation} = findWall(current, nextCell);
+			if (orientation === 'latitude') {
+				w.longitude[row][column] = WallOptions.Open;
+			} else if (orientation === 'longitude') {
+				w.latitude[row][column] = WallOptions.Open;
 			}
 
 			stack.push(nextCell);
 		}
+
 	}
 
 	// entrance and exit
 	w.latitude[0][0] = WallOptions.Open;
-	w.latitude[w.rows][w.columns-1] = WallOptions.Open;
+	w.latitude[w.numRows][w.numColumns-1] = WallOptions.Open;
 
 	return w;
 };
 
-const moveToNextCell = (cell: Cell, walls: Walls): Cell|null => {
-	let neighbors: Cell[] = [];
+const moveToNextCell = (cell: CellLocation, walls: Walls): CellLocation|null => {
+	let neighbors: CellLocation[] = [];
 
-	if (cell.row > 0) // north neighbor
+	if (cell.row > 0) // top neighbor
 		neighbors.push({ row: cell.row-1, column: cell.column })
-	if (cell.row+1 < walls.rows) // south neighbor
-		neighbors.push({ row: cell.row+1, column: cell.column })
-	if (cell.column > 0) // west neighbor
-		neighbors.push({ row: cell.row, column: cell.column-1 })
-	if (cell.column+1 < walls.columns) // east neighbor
+	if (cell.column+1 < walls.numColumns) // right neighbor
 		neighbors.push({ row: cell.row, column: cell.column+1 })
+	if (cell.row+1 < walls.numRows) // bottom neighbor
+		neighbors.push({ row: cell.row+1, column: cell.column })
+	if (cell.column > 0) // left neighbor
+		neighbors.push({ row: cell.row, column: cell.column-1 })
 
 	// find cells that are all surrounded by walls, or not linked
 	let availableCells = neighbors.filter(n => getCellLinks(n, walls) === 0);
@@ -104,36 +78,65 @@ const moveToNextCell = (cell: Cell, walls: Walls): Cell|null => {
 	return availableCells[Math.floor(Math.random()*availableCells.length)]
 }
 
-const getCellLinks = (cell:Cell, walls: Walls): number => {
-	let links = 0;
+const getCellWalls = (cell:CellLocation): CellWalls => {
+	return {
+		top: {
+			row: cell.row, 
+			column: cell.column,
+			orientation: 'latitude'
+		},
+		right: {
+			row: cell.row, 
+			column: cell.column+1, 
+			orientation: 'longitude'
+		},
+		bottom: {
+			row: cell.row+1, 
+			column: cell.column,
+			orientation: 'latitude'
+		},
+		left: {
+			row: cell.row,
+			column: cell.column,
+			orientation: 'longitude'
+		}
+	}
+}
 
-	if (walls.latitude[cell.row][cell.column] === WallOptions.Open) links++;
-	if (walls.latitude[cell.row+1][cell.column] === WallOptions.Open) links++;
+const getCellLinks = (cell:CellLocation, walls: Walls): number => {
+	let links = 0,
+			cellWalls = getCellWalls(cell);
 
-	if (walls.longitude[cell.row][cell.column] === WallOptions.Open) links++;
-	if (walls.longitude[cell.row][cell.column+1] === WallOptions.Open) links++;
+	if (walls.latitude[cellWalls.top.row][cellWalls.top.column] === WallOptions.Open) links++;
+	if (walls.longitude[cellWalls.right.row][cellWalls.right.column] === WallOptions.Open) links++;
+	if (walls.latitude[cellWalls.bottom.row][cellWalls.bottom.column] === WallOptions.Open) links++;
+	if (walls.longitude[cellWalls.left.row][cellWalls.left.column] === WallOptions.Open) links++;
 
 	return links;
 }
 
-const randomCell = (rows: number, columns: number): Cell => {
+const randomCell = (rows: number, columns: number): CellLocation => {
 	return {
 		row: Math.floor(Math.random()*rows), 
 		column: Math.floor(Math.random()*columns)
 	}
 };
 
-const findWall = (b1: Cell, b2: Cell): Wall => {
-	let singleWall: Wall = [0, 0, 'unknown'];
+const findWall = (b1: CellLocation, b2: CellLocation): Wall => {
+	let singleWall: Wall = {
+		row: 0, 
+		column: 0,
+		orientation: 'unknown'
+	};
 
 	if (b1.row === b2.row) {
-		singleWall[2] = 'latitude';
-		singleWall[0] = b1.row;
-		singleWall[1] = b1.column > b2.column ? b1.column : b2.column;
+		singleWall.orientation = 'latitude';
+		singleWall.row = b1.row;
+		singleWall.column = b1.column > b2.column ? b1.column : b2.column;
 	} else if (b1.column === b2.column) {
-		singleWall[2] = 'longitude';
-		singleWall[0] = b1.row > b2.row ? b1.row : b2.row;
-		singleWall[1] = b1.column;
+		singleWall.orientation = 'longitude';
+		singleWall.row = b1.row > b2.row ? b1.row : b2.row;
+		singleWall.column = b1.column;
 	} else {
 		throw new Error('unknown wall type');
 	}
