@@ -1,4 +1,5 @@
-const { Walls, createMaze, WallOptions } = require('./layout');
+import { createMaze } from './layout';
+import { Walls, WallOptions } from './types';
 
 const toggleMazeSize = (clicked): void => {
   let size = clicked.target;
@@ -67,7 +68,7 @@ const initialize = (): void => {
   }
 }
 
-const printWalls = (w: typeof Walls, canvas: HTMLCanvasElement): void => {
+const printWalls = (w: Walls, canvas: HTMLCanvasElement): void => {
   let ctx = canvas.getContext('2d'),
       latUnit = canvas.height / w.numRows,
       longUnit = canvas.width / w.numColumns;
