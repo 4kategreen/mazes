@@ -1,6 +1,7 @@
+import expectedValues from './fixtures';
+
 import { Walls } from '../src/types';;
 import { createMaze } from '../src/layout';
-import { expectedValues } from './fixtures';
 
 let percents = (x:number, y:number) => {
   let total = 0,
@@ -9,36 +10,21 @@ let percents = (x:number, y:number) => {
       open = 0,
       maze: Walls = createMaze(x,y);
 
-  for (let line of maze.latitude) {
-    for (let wall of line) {
-      total++;
-      switch (wall) {
-        case 0:
-          locked++;
-          break;
-        case 1:
-          closed++;
-          break;
-        case 2:
-          open++;
-          break;
-      }
-    }
-  }
-
-  for (let line of maze.longitude) {
-    for (let wall of line) {
-      total++;
-      switch (wall) {
-        case 0:
-          locked++;
-          break;
-        case 1:
-          closed++;
-          break;
-        case 2:
-          open++;
-          break;
+  for (let orientation of [maze.latitude, maze.longitude]) {
+    for (let line of orientation) {
+      for (let wall of line) {
+        total++;
+        switch (wall) {
+          case 0:
+            locked++;
+            break;
+          case 1:
+            closed++;
+            break;
+          case 2:
+            open++;
+            break;
+        }
       }
     }
   }

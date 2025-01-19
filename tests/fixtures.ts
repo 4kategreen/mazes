@@ -1,4 +1,4 @@
-export const expectedValues = [
+export default [
   {
     totalClosed: 0,
     totalLocked: 0,
