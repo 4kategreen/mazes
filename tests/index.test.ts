@@ -14,16 +14,12 @@ let percents = (x:number, y:number) => {
     for (let line of orientation) {
       for (let wall of line) {
         total++;
-        switch (wall) {
-          case 0:
-            locked++;
-            break;
-          case 1:
-            closed++;
-            break;
-          case 2:
+        if (wall.isLocked) {
+          locked++;
+        } else {
+          if (wall.isOpen) {
             open++;
-            break;
+          } else closed++;
         }
       }
     }
@@ -40,13 +36,13 @@ let percents = (x:number, y:number) => {
 describe('createMaze', () => {
   it('has a consistent percentage variance of wall types', () => {
     let allPercents: Array<{}> = [],
-        i = 0;
+        i = 1;
 
     while (i < 10) {
       allPercents.push(percents(i*11, i*11));
       i++;
     }
-
+    
     expect(allPercents).toEqual(expectedValues);
   })
 })

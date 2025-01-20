@@ -19,11 +19,11 @@
   * 		findWall()
   **/
 
- export type Walls = {
+export type Walls = {
 	numRows: number,
 	numColumns: number,
-	latitude: WallOptions[][], // rows, columns+1
-	longitude: WallOptions[][] // rows+1, columns
+	latitude: Array<Array<WallProperties>>,
+	longitude: Array<Array<WallProperties>>
 }
 
 export type Wall = {
@@ -49,6 +49,11 @@ export type CellWalls = {
 	right: Wall,
 	bottom: Wall,
 	left: Wall
+}
+
+export type WallProperties = {
+  isLocked: Boolean,
+  isOpen: Boolean
 }
 
 export const enum WallOptions {

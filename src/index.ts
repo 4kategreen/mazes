@@ -1,5 +1,5 @@
 import { createMaze } from './layout';
-import { Walls, WallOptions } from './types';
+import { Walls } from './types';
 
 const initialize = (): void => {
   let body = document.getElementById('body') as HTMLDivElement;
@@ -59,7 +59,7 @@ const printWalls = (w: Walls, canvas: HTMLCanvasElement): void => {
 
     for (let r=0; r<w.numRows; r++) {
       for (let c=0; c<=w.numColumns; c++) {
-        if (w.longitude[r][c] !== WallOptions.Open) {
+        if (!w.longitude[r][c].isOpen) {
           let stationary = c*longUnit,
               start = r*latUnit,
               end = (r+1)*latUnit;
@@ -74,7 +74,7 @@ const printWalls = (w: Walls, canvas: HTMLCanvasElement): void => {
 
     for (let r=0;r<=w.numRows;r++) {
       for (let c=0;c<w.numColumns;c++) {
-        if (w.latitude[r][c] !== WallOptions.Open) {
+        if (!w.latitude[r][c].isOpen) {
           let stationary = r*latUnit,
               start = c*longUnit,
               end = (c+1)*longUnit;
