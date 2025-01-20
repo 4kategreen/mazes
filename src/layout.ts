@@ -1,32 +1,37 @@
-import { Walls, Wall, CellLocation, CellProperties, CellWalls, WallOptions } from './types';
+import { Walls, Wall, CellLocation, CellWalls } from './types';
 
 const createMaze = (rows: number, columns: number): Walls => {
-	let walls: Walls = {
+
+	let Walls: Walls = {
 		numRows: rows,
 		numColumns: columns,
 		latitude: [],
 		longitude: []
-	};
+	}
 
-	for (let r=0; r<=walls.numRows; r++) {
-		walls.latitude[r] = [];
-		for (let c=0; c<walls.numColumns; c++) {
-			walls.latitude[r][c] = (r === 0 || r === walls.numRows) ?
-				WallOptions.Locked :
-				WallOptions.Closed;
+	for (let r=0; r<=Walls.numRows; r++) {
+		Walls.latitude[r] = [];
+
+		for (let c=0; c<Walls.numColumns; c++) {
+			Walls.latitude[r][c] = {
+				isLocked: (r === 0 || r === Walls.numRows),
+				isOpen: false
+			}
 		}
 	}
 
-	for (let r=0; r<walls.numRows; r++) {
-		walls.longitude[r] = [];
-		for (let c=0; c<=walls.numColumns; c++) {
-			walls.longitude[r][c] = (c === 0 || c === walls.numColumns) ? 
-				WallOptions.Locked : 
-				WallOptions.Closed;
+	for (let r=0; r<Walls.numRows; r++) {
+		Walls.longitude[r] = [];
+
+		for (let c=0; c<=Walls.numColumns; c++) {
+			Walls.longitude[r][c] = {
+				isLocked: (c === 0 || c === Walls.numColumns),
+				isOpen: false
+			}
 		}
 	}
 
-	return recursiveBacktracker(walls);
+	return recursiveBacktracker(Walls);
 };
 
 const recursiveBacktracker = (w: Walls): Walls => {
@@ -42,9 +47,9 @@ const recursiveBacktracker = (w: Walls): Walls => {
 		} else {
 			let {row,column,orientation} = findWall(current, nextCell);
 			if (orientation === 'latitude') {
-				w.longitude[row][column] = WallOptions.Open;
+				w.longitude[row][column].isOpen = true;
 			} else if (orientation === 'longitude') {
-				w.latitude[row][column] = WallOptions.Open;
+				w.latitude[row][column].isOpen = true;
 			}
 
 			stack.push(nextCell);
@@ -53,8 +58,8 @@ const recursiveBacktracker = (w: Walls): Walls => {
 	}
 
 	// entrance and exit
-	w.latitude[0][0] = WallOptions.Open;
-	w.latitude[w.numRows][w.numColumns-1] = WallOptions.Open;
+	w.latitude[0][0].isOpen = true;
+	w.latitude[w.numRows][w.numColumns-1].isOpen = true;
 
 	return w;
 };
@@ -107,10 +112,10 @@ const getCellLinks = (cell:CellLocation, walls: Walls): number => {
 	let links = 0,
 			cellWalls = getCellWalls(cell);
 
-	if (walls.latitude[cellWalls.top.row][cellWalls.top.column] === WallOptions.Open) links++;
-	if (walls.longitude[cellWalls.right.row][cellWalls.right.column] === WallOptions.Open) links++;
-	if (walls.latitude[cellWalls.bottom.row][cellWalls.bottom.column] === WallOptions.Open) links++;
-	if (walls.longitude[cellWalls.left.row][cellWalls.left.column] === WallOptions.Open) links++;
+	if (walls.latitude[cellWalls.top.row][cellWalls.top.column].isOpen) links++;
+	if (walls.longitude[cellWalls.right.row][cellWalls.right.column].isOpen) links++;
+	if (walls.latitude[cellWalls.bottom.row][cellWalls.bottom.column].isOpen) links++;
+	if (walls.longitude[cellWalls.left.row][cellWalls.left.column].isOpen) links++;
 
 	return links;
 }
@@ -145,4 +150,4 @@ const findWall = (b1: CellLocation, b2: CellLocation): Wall => {
 };
 
 
-export { Walls, createMaze, WallOptions }
+export { createMaze }
