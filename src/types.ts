@@ -55,9 +55,3 @@ export type WallProperties = {
   isLocked: Boolean,
   isOpen: Boolean
 }
-
-export const enum WallOptions {
-	Locked,
-	Closed,
-	Open
-};
