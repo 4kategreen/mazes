@@ -20,8 +20,8 @@ const initialize = (): void => {
   regenerate.addEventListener("submit", (e) => e.preventDefault(), true);
 
   // set canvas to screen size
-  canvas.height = canvasParent.clientWidth * .95;
-  canvas.width = canvasParent.clientWidth * .95;
+  canvas.height = canvasParent.clientWidth;
+  canvas.width = canvasParent.clientWidth;
 
   if (body) {
     let myMaze = createMaze(40, 40);
