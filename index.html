@@ -44,7 +44,43 @@
 	  </div>
 	</section>
 
-	<div class="columns" id="body">
+	<div class="columns is-3" id="body">
+		<div class="column">
+			<h3 class="title is-h3">Generate New Maze</h3>
+			<form id="regenerate">
+				<div class="tabs is-toggle is-fullwidth" id="difficultyToggle">
+					<ul>
+						<li><a>Easy</a></li>
+						<li class="is-active"><a>Medium</a></li>
+						<li><a>Hard</a></li>
+					</ul>
+				</div>
+				<div class="field to-hide is-hidden">
+					<label class="label" for="height">Height</label>
+					<div class="control">
+						<input name="height" type="number" value="40" required min="1" />
+					</div>
+				</div>
+				<div class="field to-hide is-hidden">
+					<label class="label" for="width">Width</label>
+					<div class="control">
+						<input name="width" type="number" value="40" required min="1" />
+					</div>
+				</div>
+				<div class="field is-hidden">
+					<div class="control">
+						<button id="regenerateSubmit" class="button is-link">Generate New Maze</button>
+					</div>
+				</div>
+				<div class="field">
+					<div class="control p-4">
+						<button id="printMaze" class="button is-info">Print This Maze</button>
+					</div>
+				</div>
+			</form>
+			<canvas class="p-1" id="mazeDrawing"></canvas>
+  	</div>
+
 		<div class="column">
       <div class="column content">
       	<h3 class="title is-h3">Why Should Kids Do Mazes?</h3>
@@ -71,46 +107,6 @@
 	      <p class="block">For me, it's been a fun challenge to generate mazes with code, brush up on Typescript, and run all of this code in your browser.</p>
 	    </div>
 		</div>
-
-		<div class="column">
-  		<div class="card">
-				<div class="card-content">
-					<h3 class="title is-h3">Generate New Maze</h3>
-					<form id="regenerate">
-						<div class="tabs is-toggle is-fullwidth" id="difficultyToggle">
-							<ul>
-								<li><a>Easy</a></li>
-								<li class="is-active"><a>Medium</a></li>
-								<li><a>Hard</a></li>
-							</ul>
-						</div>
-						<div class="field to-hide is-hidden">
-							<label class="label" for="height">Height</label>
-							<div class="control">
-								<input name="height" type="number" value="40" required min="1" />
-							</div>
-						</div>
-						<div class="field to-hide is-hidden">
-							<label class="label" for="width">Width</label>
-							<div class="control">
-								<input name="width" type="number" value="40" required min="1" />
-							</div>
-						</div>
-						<div class="field is-hidden">
-							<div class="control">
-							  <button id="regenerateSubmit" class="button is-link">Generate New Maze</button>
-							</div>
-						</div>
-					  <div class="field">
-					    <div class="control">
-					      <button id="printMaze" class="button is-info">Print This Maze</button>
-					    </div>
-					  </div>
-					</form>
-					<canvas class="p-4" id="mazeDrawing"></canvas>
-				</div>
-			</div>
-  	</div>
 	</div>
 
 	<footer class="footer">
