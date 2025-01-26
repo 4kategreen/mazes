@@ -1,37 +1,39 @@
-import { Walls, Wall, CellLocation, CellWalls } from './types';
+import { Walls, Wall, CellLocation, CellWalls, CellProperties } from './types';
 
 const createMaze = (rows: number, columns: number): Walls => {
 
-	let Walls: Walls = {
+	let walls: Walls = {
 		numRows: rows,
 		numColumns: columns,
+		numLatitudes: 0,
+		numLongitudes: 0,
 		latitude: [],
 		longitude: []
 	}
 
-	for (let r=0; r<=Walls.numRows; r++) {
-		Walls.latitude[r] = [];
+	for (let r=0; r<=walls.numRows; r++) {
+		walls.latitude[r] = [];
 
-		for (let c=0; c<Walls.numColumns; c++) {
-			Walls.latitude[r][c] = {
-				isLocked: (r === 0 || r === Walls.numRows),
+		for (let c=0; c<walls.numColumns; c++) {
+			walls.latitude[r][c] = {
+				isLocked: (r === 0 || r === walls.numRows),
 				isOpen: false
 			}
 		}
 	}
 
-	for (let r=0; r<Walls.numRows; r++) {
-		Walls.longitude[r] = [];
+	for (let r=0; r<walls.numRows; r++) {
+		walls.longitude[r] = [];
 
-		for (let c=0; c<=Walls.numColumns; c++) {
-			Walls.longitude[r][c] = {
-				isLocked: (c === 0 || c === Walls.numColumns),
+		for (let c=0; c<=walls.numColumns; c++) {
+			walls.longitude[r][c] = {
+				isLocked: (c === 0 || c === walls.numColumns),
 				isOpen: false
 			}
 		}
 	}
 
-	return recursiveBacktracker(Walls);
+	return recursiveBacktracker(walls);
 };
 
 const recursiveBacktracker = (w: Walls): Walls => {
@@ -57,24 +59,31 @@ const recursiveBacktracker = (w: Walls): Walls => {
 
 	}
 
-	// entrance and exit
-	w.latitude[0][0].isOpen = true;
-	w.latitude[w.numRows][w.numColumns-1].isOpen = true;
+	makeExits(w);
 
 	return w;
 };
 
-const moveToNextCell = (cell: CellLocation, walls: Walls): CellLocation|null => {
-	let neighbors: CellLocation[] = [];
+const makeExits = (w: Walls): void => {
+	let randomTop = Math.round(w.numRows*Math.random()),
+			randomBottom = Math.round(w.numRows*Math.random());
 
-	if (cell.row > 0) // top neighbor
-		neighbors.push({ row: cell.row-1, column: cell.column })
-	if (cell.column+1 < walls.numColumns) // right neighbor
-		neighbors.push({ row: cell.row, column: cell.column+1 })
-	if (cell.row+1 < walls.numRows) // bottom neighbor
-		neighbors.push({ row: cell.row+1, column: cell.column })
-	if (cell.column > 0) // left neighbor
-		neighbors.push({ row: cell.row, column: cell.column-1 })
+	w.latitude[0][randomTop].isOpen = true;
+	w.latitude[w.numRows][randomBottom].isOpen = true;
+}
+
+const moveToNextCell = (cell: CellLocation, walls: Walls): CellLocation|null => {
+	let neighbors: CellLocation[] = [],
+			cellProps = getCellProperties(cell)
+
+	if (cell.row > 0)
+		neighbors.push(cellProps.neighbors.top)
+	if (cell.column+1 < walls.numColumns)
+		neighbors.push(cellProps.neighbors.right)
+	if (cell.row+1 < walls.numRows)
+		neighbors.push(cellProps.neighbors.bottom)
+	if (cell.column > 0)
+		neighbors.push(cellProps.neighbors.left)
 
 	// find cells that are all surrounded by walls, or not linked
 	let availableCells = neighbors.filter(n => getCellLinks(n, walls) === 0);
@@ -83,39 +92,49 @@ const moveToNextCell = (cell: CellLocation, walls: Walls): CellLocation|null => 
 	return availableCells[Math.floor(Math.random()*availableCells.length)]
 }
 
-const getCellWalls = (cell:CellLocation): CellWalls => {
+const getCellProperties = (cell:CellLocation): CellProperties => {
 	return {
-		top: {
-			row: cell.row, 
-			column: cell.column,
-			orientation: 'latitude'
+		row: cell.row,
+		column: cell.column,
+		walls: {
+			top: {
+				row: cell.row, 
+				column: cell.column,
+				orientation: 'latitude'
+			},
+			right: {
+				row: cell.row, 
+				column: cell.column+1, 
+				orientation: 'longitude'
+			},
+			bottom: {
+				row: cell.row+1, 
+				column: cell.column,
+				orientation: 'latitude'
+			},
+			left: {
+				row: cell.row,
+				column: cell.column,
+				orientation: 'longitude'
+			}
 		},
-		right: {
-			row: cell.row, 
-			column: cell.column+1, 
-			orientation: 'longitude'
-		},
-		bottom: {
-			row: cell.row+1, 
-			column: cell.column,
-			orientation: 'latitude'
-		},
-		left: {
-			row: cell.row,
-			column: cell.column,
-			orientation: 'longitude'
+		neighbors: {
+			top: { row: cell.row-1, column: cell.column },
+			right: { row: cell.row, column: cell.column+1 },
+			bottom: { row: cell.row+1, column: cell.column },
+			left: { row: cell.row, column: cell.column-1 }
 		}
 	}
 }
 
 const getCellLinks = (cell:CellLocation, walls: Walls): number => {
 	let links = 0,
-			cellWalls = getCellWalls(cell);
+			cellProps: CellProperties = getCellProperties(cell);
 
-	if (walls.latitude[cellWalls.top.row][cellWalls.top.column].isOpen) links++;
-	if (walls.longitude[cellWalls.right.row][cellWalls.right.column].isOpen) links++;
-	if (walls.latitude[cellWalls.bottom.row][cellWalls.bottom.column].isOpen) links++;
-	if (walls.longitude[cellWalls.left.row][cellWalls.left.column].isOpen) links++;
+	if (walls.latitude[cellProps.walls.top.row][cellProps.walls.top.column].isOpen) links++;
+	if (walls.longitude[cellProps.walls.right.row][cellProps.walls.right.column].isOpen) links++;
+	if (walls.latitude[cellProps.walls.bottom.row][cellProps.walls.bottom.column].isOpen) links++;
+	if (walls.longitude[cellProps.walls.left.row][cellProps.walls.left.column].isOpen) links++;
 
 	return links;
 }
