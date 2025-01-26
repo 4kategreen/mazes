@@ -22,6 +22,8 @@
 export type Walls = {
 	numRows: number,
 	numColumns: number,
+	numLatitudes: number,
+	numLongitudes: number,
 	latitude: Array<Array<WallProperties>>,
 	longitude: Array<Array<WallProperties>>
 }
@@ -41,7 +43,7 @@ export type CellProperties = {
 	row: number,
 	column: number,
 	walls: CellWalls,
-	neighbors?: null
+	neighbors: CellNeighbors
 }
 
 export type CellWalls = {
@@ -49,6 +51,13 @@ export type CellWalls = {
 	right: Wall,
 	bottom: Wall,
 	left: Wall
+}
+
+export type CellNeighbors = {
+	top: CellLocation,
+	right: CellLocation,
+	bottom: CellLocation,
+	left: CellLocation
 }
 
 export type WallProperties = {
