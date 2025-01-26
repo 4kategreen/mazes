@@ -1,4 +1,4 @@
-import { Walls, Wall, CellLocation, CellWalls, CellProperties } from './types';
+import { Walls, Wall, CellLocation, CellProperties } from './types';
 
 const createMaze = (rows: number, columns: number): Walls => {
 
